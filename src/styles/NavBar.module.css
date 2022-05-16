@@ -56,7 +56,7 @@
 }
 
 .active {
-  color: Hsl(59, 100%, 51%)
+  color: hsl(59, 100%, 51%)
 }
 
 @keyframes brand-hover-shutter {

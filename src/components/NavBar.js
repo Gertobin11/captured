@@ -3,7 +3,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FormControl } from "react-bootstrap";
-import styles from "./NavBar.module.css";
+import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
