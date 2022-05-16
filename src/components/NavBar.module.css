@@ -1,0 +1,108 @@
+.flexrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.links-section {
+  display: flex;
+  flex-direction: row;
+}
+
+.links-section > * {
+  color: whitesmoke;
+  text-decoration: none;
+  margin: 0 .7rem
+}
+
+.links-section > *:hover,
+.links-section > *:active {
+  color: hsl(115, 69%, 56%);
+}
+
+.social-logo {
+  color: hsl(115, 69%, 56%);
+  margin-left: .5rem;
+}
+
+.brand-img {
+    margin: 0 .7rem
+}
+
+.basic-navbar-nav {
+    display: flex;
+    justify-content: space-between;
+ ;
+}
+
+.home-link {
+    width: 40%;
+    display: flex;
+    justify-content: flex-start;
+    color: whitesmoke;
+    text-decoration: none !important;
+}
+
+.home-link:hover > img {
+  animation: brand-hover-shutter 1s forwards;
+}
+
+.home-link:hover > * {
+  animation: flash-logo 1s forwards;
+}
+
+.links-section > a > * {
+  color: hsl(115, 69%, 56%);
+}
+
+.active {
+  color: Hsl(59, 100%, 51%)
+}
+
+@keyframes brand-hover-shutter {
+  0% {
+    opacity: 100%;
+  }
+  50% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%
+  }
+}
+
+@keyframes flash-logo {
+  0%{
+    color: hsl(115, 69%, 56%)
+  }
+  50% {
+    color: Hsl(59, 100%, 51%)
+  }
+  100% {
+    color: hsl(115, 69%, 56%)
+  }
+} 
+
+@media screen and ( width < 992px) {
+  .basic-navbar-nav {
+    align-items: flex-start;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column-reverse;
+  }
+
+  .links-section {
+    flex-direction: column;
+    align-items: baseline;
+  }
+
+  .form-control {
+    width: min-content !important;
+  }
+}
+
+@media screen and (width < 1025px) {
+  .home-link {
+    width: 35%
+  }
+}
