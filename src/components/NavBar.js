@@ -44,6 +44,9 @@ const NavBar = () => {
           <NavLink exact to="/" activeClassName={styles.active}>
             <i className="fas fa-home"></i> Home
           </NavLink>
+          <NavLink to="/sign-up" activeClassName={styles.active}>
+            <i className="fas fa-user-plus"></i> Sign Up
+          </NavLink>
           <NavLink to="/sign-in" activeClassName={styles.active}>
             <i className="fas fa-sign-in-alt"></i> Login
           </NavLink>

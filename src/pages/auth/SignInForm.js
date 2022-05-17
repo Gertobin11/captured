@@ -5,45 +5,51 @@ import styles from "../../styles/SignInUpForm.module.css";
 import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
 
-import { Form, Button, Image, Col, Row, Container, Alert } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Image,
+  Col,
+  Row,
+  Container,
+  Alert,
+} from "react-bootstrap";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
-const SignUpForm = () => {
-  const [signUpData, setSignUpData] = useState({
-    username: '',
-    password1:'',
-    password2: ''
-  })
+const SignInForm = () => {
+  const [signInData, setSignInData] = useState({
+    username: "",
+    password: "",
+  });
 
-  const {username, password1, password2} = signUpData;
-  const history = useHistory()
+  const { username, password} = signInData;
+  const history = useHistory();
 
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState({});
 
   const handleChange = (event) => {
-    setSignUpData({
-      ...signUpData,
-      [event.target.name]: event.target.value
-    })
-  }
+    setSignInData({
+      ...signInData,
+      [event.target.name]: event.target.value,
+    });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post('dj-rest-auth/registration/', signUpData)
-      history.push('/sign-in')
+      await axios.post("/dj-rest-auth/login/", signInData);
+      history.push("/");
+    } catch (err) {
+      setErrors(err.response?.data);
     }
-    catch(err){
-      setErrors(err.response?.data)
-    }
-  }
+  };
 
   return (
     <Row className={styles.Row}>
       <Col className="my-auto py-2 p-md-2" md={6}>
         <Container className={`${appStyles.Content} p-4 `}>
-          <h1 className={styles.Header}>sign up</h1>
+          <h1 className={styles.Header}>Sign In</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="username">
               <Form.Label className="d-none">Email address</Form.Label>
@@ -66,29 +72,13 @@ const SignUpForm = () => {
               <Form.Control
                 className={styles.Input}
                 type="password"
-                name="password1"
+                name="password"
                 placeholder="Password"
-                value={password1}
+                value={password}
                 onChange={handleChange}
               />
             </Form.Group>
-            {errors.password1?.map((message, idx) => (
-              <Alert variant="warning" key={idx}>
-                {message}
-              </Alert>
-            ))}
-            <Form.Group className="mb-3" controlId="password2">
-              <Form.Label className="d-none">Confirm Password</Form.Label>
-              <Form.Control
-                className={styles.Input}
-                type="password"
-                name="password2"
-                placeholder="Confirm Password"
-                value={password2}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            {errors.password2?.map((message, idx) => (
+            {errors.password?.map((message, idx) => (
               <Alert variant="warning" key={idx}>
                 {message}
               </Alert>
@@ -97,7 +87,7 @@ const SignUpForm = () => {
               className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`}
               type="submit"
             >
-              Sign up
+              Sign In
             </Button>
             {errors.non_field_errors?.map((message, idx) => (
               <Alert className="mt-3" variant="warning" key={idx}>
@@ -107,8 +97,8 @@ const SignUpForm = () => {
           </Form>
         </Container>
         <Container className={`mt-3 ${appStyles.Content}`}>
-          <Link className={styles.Link} to="/sign-in">
-            Already have an account? <span>Sign in</span>
+          <Link className={styles.Link} to="/sign-up">
+            Already have an account? <span>Sign Up</span>
           </Link>
         </Container>
       </Col>
@@ -119,7 +109,7 @@ const SignUpForm = () => {
         <Image
           className={`${appStyles.FillerImage} ${styles["sign-up-img"]}`}
           src={
-            "https://images.unsplash.com/photo-1616858136942-c76763274a08?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+            "https://images.unsplash.com/photo-1519772068161-ffd92063c4d7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
           }
         />
       </Col>
@@ -127,4 +117,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default SignInForm;
