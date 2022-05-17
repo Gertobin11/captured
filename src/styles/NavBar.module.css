@@ -17,11 +17,11 @@
 
 .links-section > *:hover,
 .links-section > *:active {
-  color: hsl(115, 69%, 56%);
+  color: #B39B78;
 }
 
 .social-logo {
-  color: hsl(115, 69%, 56%);
+  color: #B39B78;
   margin-left: .5rem;
 }
 
@@ -52,11 +52,11 @@
 }
 
 .links-section > a > * {
-  color: hsl(115, 69%, 56%);
+  color: #735932;
 }
 
 .active {
-  color: hsl(59, 100%, 51%)
+  color: #B39B78
 }
 
 @keyframes brand-hover-shutter {
@@ -73,13 +73,13 @@
 
 @keyframes flash-logo {
   0%{
-    color: hsl(115, 69%, 56%)
+    color: #B39B78
   }
   50% {
-    color: Hsl(59, 100%, 51%)
+    color: #735932
   }
   100% {
-    color: hsl(115, 69%, 56%)
+    color: #B39B78
   }
 } 
 

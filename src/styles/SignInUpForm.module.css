@@ -3,10 +3,10 @@
 }
 
 .Input {
-    background: hsl(60, 100%, 87%);
-    border: 1px solid hsl(59, 100%, 51%);
+    background: whitesmoke;
+    border: 1px solid #343a40;
     box-sizing: border-box;
-    border-radius: 2px;
+    border-radius: 5px;
     color: #343a40;
     text-align: center;
     padding: 10px;
@@ -15,12 +15,12 @@
 .Header {
     font-style: normal;
     font-weight: bold;
-    font-size: 16px;
-    line-height: 19px;
+    font-size: 26px;
+    line-height: 30px;
     text-align: center;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: hsl(115, 69%, 56%);
+    color: #343a40;
 }
 
 .Link {
@@ -31,7 +31,7 @@
 }
 
 .Link span {
-    color: #ff9254;
+    color: #343a40;
 }
 
 .Container {
@@ -45,4 +45,15 @@
 
 .SignUpCol {
     height: 375px;
+}
+.sign-up-img {
+    max-width: 100%;
+    border-radius: 5px;
+    box-shadow: 
+        0 1px 1px rgba(0, 0, 0, 0.11),
+        0 2px 2px rgba(0, 0, 0, 0.11),
+        0 4px 4px rgba(0, 0, 0, 0.11),
+        0 8px 8px rgba(0, 0, 0, 0.11),
+        0 16px 16px rgba(0, 0, 0, 0.11),
+        0 32px 32px rgba(0, 0, 0, 0.11);
 }
