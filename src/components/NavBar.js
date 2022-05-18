@@ -1,12 +1,31 @@
-import React from "react";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { FormControl } from "react-bootstrap";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
+import { useCurrentUser } from "../contexts/CurrentUserContext";
 
 const NavBar = () => {
+  const currentUser = useCurrentUser();
+  const loggedOutUsersNav = (
+    <>
+      <NavLink to="/sign-up" activeClassName={styles.active}>
+        <i className="fas fa-user-plus"></i> Sign Up
+      </NavLink>
+      <NavLink to="/sign-in" activeClassName={styles.active}>
+        <i className="fas fa-sign-in-alt"></i> Login
+      </NavLink>
+    </>
+  );
+  const loggInUsersNav = (
+    <>
+      <NavLink to="/logout" activeClassName={styles.active}>
+        <i className="fas fa-sign-out-alt"></i> Logout
+      </NavLink>
+    </>
+  );
+
   return (
     <Navbar
       sticky="top"
@@ -44,15 +63,7 @@ const NavBar = () => {
           <NavLink exact to="/" activeClassName={styles.active}>
             <i className="fas fa-home"></i> Home
           </NavLink>
-          <NavLink to="/sign-up" activeClassName={styles.active}>
-            <i className="fas fa-user-plus"></i> Sign Up
-          </NavLink>
-          <NavLink to="/sign-in" activeClassName={styles.active}>
-            <i className="fas fa-sign-in-alt"></i> Login
-          </NavLink>
-          <NavLink to="/logout" activeClassName={styles.active}>
-            <i className="fas fa-sign-out-alt"></i> Logout
-          </NavLink>
+          {currentUser ? loggInUsersNav : loggedOutUsersNav}
         </div>
       </Navbar.Collapse>
     </Navbar>
