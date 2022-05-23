@@ -1,13 +1,32 @@
 import Navbar from "react-bootstrap/Navbar";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { FormControl } from "react-bootstrap";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import { useCurrentUser } from "../contexts/CurrentUserContext";
+import { useCurrentUser, useSetCurrentUser} from "../contexts/CurrentUserContext";
+import Avatar from "./Avatar";
+import axios from "axios";
 
 const NavBar = () => {
   const currentUser = useCurrentUser();
+  const setCurrentUser = useSetCurrentUser()
+
+  const handleSignOut = async (e) => {
+    try {
+      await axios.post('dj-rest-auth/logout/')
+      setCurrentUser(null)
+    }
+    catch(err) {
+      console.log(err)
+    }
+  }
+
+  const addPostIcon = (
+    <div className={`${styles["links-section"]}`}>
+        <NavLink to="/posts/create/" activeClassName={styles.active}>
+          <i className="far fa-plus-square"></i> Create Post
+        </NavLink>
+    </div>
+  );
+
   const loggedOutUsersNav = (
     <>
       <NavLink to="/sign-up" activeClassName={styles.active}>
@@ -18,9 +37,23 @@ const NavBar = () => {
       </NavLink>
     </>
   );
-  const loggInUsersNav = (
+  const loggedInUsersNav = (
     <>
-      <NavLink to="/logout" activeClassName={styles.active}>
+      <NavLink to={`/profiles/${currentUser?.profile_id}`}>
+        <Avatar
+          src={currentUser?.profile_image}
+          text="Profile"
+          height={40}
+          activeClassName={styles.active}
+         />
+      </NavLink>
+      <NavLink to="/feed" activeClassName={styles.active}>
+        <i className="fas fa-stream"></i> Feed
+      </NavLink>
+      <NavLink to="/liked" activeClassName={styles.active}>
+        <i className="fas fa-heart"></i> Liked
+      </NavLink>
+      <NavLink to="/" onClick={handleSignOut}>
         <i className="fas fa-sign-out-alt"></i> Logout
       </NavLink>
     </>
@@ -51,19 +84,12 @@ const NavBar = () => {
         id="basic-navbar-nav"
         className={styles["basic-navbar-nav"]}
       >
-        <Form inline>
-          <FormControl
-            type="text"
-            placeholder="Search"
-            className={`mr-sm-2 ${styles["form-control"]}`}
-          />
-          <Button variant="outline-success">Search</Button>
-        </Form>
+        {currentUser ? addPostIcon : (<div className={`${styles["links-section"]}`}>Log in to Post </div>)}
         <div className={styles["links-section"]}>
           <NavLink exact to="/" activeClassName={styles.active}>
             <i className="fas fa-home"></i> Home
           </NavLink>
-          {currentUser ? loggInUsersNav : loggedOutUsersNav}
+          {currentUser ? loggedInUsersNav : loggedOutUsersNav}
         </div>
       </Navbar.Collapse>
     </Navbar>

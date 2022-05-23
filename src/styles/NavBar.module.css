@@ -7,6 +7,7 @@
 .links-section {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .links-section > * {
@@ -36,7 +37,7 @@
 }
 
 .home-link {
-    width: 40%;
+    width: 45%;
     display: flex;
     justify-content: flex-start;
     color: whitesmoke;
@@ -103,6 +104,6 @@
 
 @media screen and (width < 1025px) {
   .home-link {
-    width: 35%
+    width: 40%
   }
 }
