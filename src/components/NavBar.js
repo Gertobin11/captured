@@ -1,29 +1,36 @@
 import Navbar from "react-bootstrap/Navbar";
 import styles from "../styles/NavBar.module.css";
 import { NavLink } from "react-router-dom";
-import { useCurrentUser, useSetCurrentUser} from "../contexts/CurrentUserContext";
+import {
+  useCurrentUser,
+  useSetCurrentUser,
+} from "../contexts/CurrentUserContext";
 import Avatar from "./Avatar";
 import axios from "axios";
+import useClickOutsideToggle from "../hooks/useClickOutsideToggle";
+import logo from '../assets/capture-logo-slategrey-crop.jpg'
+
 
 const NavBar = () => {
+
+  const {expanded, setExpanded, ref} = useClickOutsideToggle();
   const currentUser = useCurrentUser();
-  const setCurrentUser = useSetCurrentUser()
+  const setCurrentUser = useSetCurrentUser();
 
   const handleSignOut = async (e) => {
     try {
-      await axios.post('dj-rest-auth/logout/')
-      setCurrentUser(null)
+      await axios.post("dj-rest-auth/logout/");
+      setCurrentUser(null);
+    } catch (err) {
+      console.log(err);
     }
-    catch(err) {
-      console.log(err)
-    }
-  }
+  };
 
   const addPostIcon = (
     <div className={`${styles["links-section"]}`}>
-        <NavLink to="/posts/create/" activeClassName={styles.active}>
-          <i className="far fa-plus-square"></i> Create Post
-        </NavLink>
+      <NavLink to="/posts/create/" activeClassName={styles.active}>
+        <i className="far fa-plus-square"></i> Create Post
+      </NavLink>
     </div>
   );
 
@@ -45,7 +52,7 @@ const NavBar = () => {
           text="Profile"
           height={40}
           activeClassName={styles.active}
-         />
+        />
       </NavLink>
       <NavLink to="/feed" activeClassName={styles.active}>
         <i className="fas fa-stream"></i> Feed
@@ -59,8 +66,10 @@ const NavBar = () => {
     </>
   );
 
+
   return (
     <Navbar
+      expanded={expanded}
       sticky="top"
       className={styles.flexrow}
       bg="dark"
@@ -71,7 +80,7 @@ const NavBar = () => {
         <Navbar.Brand className={styles["home-link"]}>
           <img
             alt="Green camera on a grey background.jpg"
-            src="capture-logo-slategrey-crop.jpg"
+            src={logo}
             width="35"
             height="35"
             className={`d-inline-block align-top ${styles["brand-img"]}`}
@@ -79,17 +88,25 @@ const NavBar = () => {
           CAPTURED | <span className={styles["social-logo"]}>social</span>
         </Navbar.Brand>
       </NavLink>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Toggle
+        ref={ref}
+        onClick={() => setExpanded(!expanded)}
+        aria-controls="basic-navbar-nav"
+      />
       <Navbar.Collapse
         id="basic-navbar-nav"
         className={styles["basic-navbar-nav"]}
       >
-        {currentUser ? addPostIcon : (<div className={`${styles["links-section"]}`}>Log in to Post </div>)}
+        {currentUser ? (
+          addPostIcon
+        ) : (
+          <div className={`${styles["links-section"]}`}>Log in to Post </div>
+        )}
         <div className={styles["links-section"]}>
+          {currentUser ? loggedInUsersNav : loggedOutUsersNav}
           <NavLink exact to="/" activeClassName={styles.active}>
             <i className="fas fa-home"></i> Home
           </NavLink>
-          {currentUser ? loggedInUsersNav : loggedOutUsersNav}
         </div>
       </Navbar.Collapse>
     </Navbar>

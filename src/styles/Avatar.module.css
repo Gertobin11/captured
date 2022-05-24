@@ -3,3 +3,11 @@
     margin: 0px 8px 0px 8px;
     object-fit: cover;
 }
+
+span {
+    color: whitesmoke !important;
+}
+
+span:hover {
+    color: #B39B78 !important;
+}
