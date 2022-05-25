@@ -4,3 +4,61 @@
     min-height: 100vh;
     background-color: #B39B78;
 }
+
+.Main {
+    padding-top: 81px;
+}
+
+.FillerImage {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.Image {
+    max-height: 40vh;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    color: #555;
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    color: black;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+
+
+figure {
+    text-align: center;
+    display: inline-block;
+}
+
+/* scrollbar */
+*::-webkit-scrollbar {
+    width: 5px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
