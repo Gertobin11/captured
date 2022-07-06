@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -7,18 +7,15 @@ import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
 import { Alert } from "react-bootstrap";
 
-import Upload from "../../assets/upload.png";
-
 import styles from "../../styles/PostCreateEditForm.module.css";
-import appStyles from '../../App.module.css';
+import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 
-import Asset from "../../components/Asset";
 import { Figure, Image } from "react-bootstrap";
-import { useHistory } from "react-router";
+import { useHistory, useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 
-function PostCreateForm() {
+function PostEditForm() {
   const [errors, setErrors] = useState({});
 
   const [postData, setPostData] = useState({
@@ -29,9 +26,25 @@ function PostCreateForm() {
 
   const { title, content, image } = postData;
 
-  const imageInput = useRef(null)
+  const imageInput = useRef(null);
 
   const history = useHistory();
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    const handleMount = async () => {
+      try {
+        const { data } = await axiosReq.get(`/posts/${id}`);
+        const { title, content, image, is_owner } = data;
+
+        is_owner ? setPostData({ title, content, image }) : history.push("/");
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    handleMount();
+  }, [history, id]);
 
   const handleChange = (event) => {
     setPostData({
@@ -53,21 +66,22 @@ function PostCreateForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('image', imageInput.current.files[0]);
+    formData.append("title", title);
+    formData.append("content", content);
+    if (imageInput?.current?.files[0]) {
+      formData.append("image", imageInput.current.files[0]);
+    }
 
     try {
-      const {data} = await axiosReq.post('/posts/', formData)
-      history.push(`/posts/${data.id}`)
-    }
-    catch(err) {
+      await axiosReq.put(`/posts/${id}`, formData);
+      history.push(`/posts/${id}`);
+    } catch (err) {
       console.log(err.response?.data);
       if (err.response?.status !== 401) {
-        setErrors(err.response?.data)
+        setErrors(err.response?.data);
       }
     }
-  }
+  };
 
   const textFields = (
     <div className="text-center">
@@ -107,7 +121,7 @@ function PostCreateForm() {
         cancel
       </Button>
       <Button className={`${btnStyles.Button} ${btnStyles.Blue}`} type="submit">
-        create
+        update
       </Button>
     </div>
   );
@@ -120,8 +134,6 @@ function PostCreateForm() {
             className={`${appStyles.Content} ${styles.Container} d-flex flex-column justify-content-center`}
           >
             <Form.Group className="text-center">
-              {image ? (
-                <>
                   <Figure>
                     <Image className={appStyles.Image} src={image} />}
                   </Figure>
@@ -133,18 +145,7 @@ function PostCreateForm() {
                       Change the image
                     </Form.Label>
                   </div>
-                </>
-              ) : (
-                <Form.Label
-                  className="d-flex justify-content-center"
-                  htmlFor="image-upload"
-                >
-                  <Asset
-                    src={Upload}
-                    message="Click or tap to upload an image"
-                  />
-                </Form.Label>
-              )}
+
               <Form.File
                 onChange={handleChangeImage}
                 id="image-upload"
@@ -168,4 +169,4 @@ function PostCreateForm() {
   );
 }
 
-export default PostCreateForm;
+export default PostEditForm;

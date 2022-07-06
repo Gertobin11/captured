@@ -9,10 +9,12 @@ import PostCreateForm from "./pages/posts/PostCreateForm";
 import PostPage from "./pages/posts/PostPage";
 import PostsPage from "./pages/posts/PostsPage";
 import { useCurrentUser } from "./contexts/CurrentUserContext";
+import PostEditForm from "./pages/posts/PostEditForm";
 
 function App() {
   const currentUser = useCurrentUser();
   const profile_id = currentUser?.profile_id || "";
+  console.log(currentUser);
   return (
     <div className={styles.App}>
       <NavBar />
@@ -31,7 +33,7 @@ function App() {
             render={() => (
               <PostsPage
                 message="No results found. Please adjust the search or follow a user"
-                filter={`owner__followed__owner__profile=${profile_id}`}
+                filter={`owner__followed__owner__profile=${profile_id}&`}
               />
             )}
           />
@@ -49,6 +51,7 @@ function App() {
           <Route exact path="/sign-in" render={() => <SignInForm />} />
           <Route exact path="/logout" render={() => <h1>Logout</h1>} />
           <Route exact path="/posts/create" render={() => <PostCreateForm />} />
+          <Route exact path="/posts/:id/edit" render={() => <PostEditForm />} />
           <Route exact path="/posts/:id" render={() => <PostPage />} />
           <Route render={() => <h2>Sorry Page Not Found</h2>} />
         </Switch>
