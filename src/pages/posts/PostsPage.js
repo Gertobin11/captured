@@ -12,6 +12,7 @@ import noResults from "../../assets/no-results.webp";
 import Asset from "../../components/Asset";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchMoreData } from "../../utils/utils";
+import PopularProfiles from "../profiles/PopularProfiles";
 
 const PostsPage = ({ message, filter = "" }) => {
   const [posts, setPosts] = useState({ results: [] });
@@ -82,7 +83,7 @@ const PostsPage = ({ message, filter = "" }) => {
         )}
       </Col>
       <Col md={4} className="d-none d-lg-block p-0 p-lg-2">
-        <p>Popular Profiles for desktop</p>
+        <PopularProfiles />
       </Col>
     </Row>
   );
