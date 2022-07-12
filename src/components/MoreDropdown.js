@@ -17,7 +17,7 @@ const ThreeDots = React.forwardRef(({ onClick }, ref) => (
 
 export const MoreDropdown = ({ handleEdit, handleDelete }) => {
   return (
-    <Dropdown className="ml-auto" drop="left">
+    <Dropdown className="ml-auto px-2" drop="left">
       <Dropdown.Toggle as={ThreeDots} />
       <Dropdown.Menu
         popperConfig={{ strategy: "fixed" }}
