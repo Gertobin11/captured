@@ -1,47 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Container } from "react-bootstrap";
-import { axiosReq } from "../../api/axiosDefaults";
 
 import appStyles from "../../App.module.css";
 import Asset from "../../components/Asset";
-import { useCurrentUser } from "../../contexts/CurrentUserContext";
+import { useProfileData } from "../../contexts/ProfileDataContext";
+import Profile from "./Profile";
 
-const PopularProfiles = () => {
-  const [profileData, setProfileData] = useState({
-    // placeholder for profile data
-    pageProfile: { results: [] },
-    PopularProfiles: { results: [] },
-  });
-
-  const { popularProfiles } = profileData;
-  const currentUser = useCurrentUser();
-
-  useEffect(() => {
-    const handleMount = async () => {
-      try {
-        const { data } = await axiosReq.get(
-          `/profiles/?ordering=-followers_count`
-        );
-        console.log(data.results);
-        setProfileData((prevState) => ({
-          ...prevState,
-          popularProfiles: data,
-        }));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    handleMount();
-  }, [currentUser]);
+const PopularProfiles = ({ mobile }) => {
+  const { popularProfiles } = useProfileData();
+  console.log(popularProfiles);
 
   return (
-    <Container className={appStyles.Content}>
+    <Container
+      className={`${appStyles.Content} ${
+        mobile && "d-lg-none text-center mb-3"
+      }`}
+    >
       <p>Most followed profiles</p>
       {popularProfiles?.results.length ? (
-        popularProfiles?.results.map((profile) => (
-          <p key={profile.id}>{profile.owner}</p>
-        ))
+        mobile ? (
+          <div className="d-flex justify-content-around">
+            {popularProfiles?.results.slice(0, 4).map((profile) => (
+              <Profile key={profile.id} profile={profile} mobile />
+            ))}
+          </div>
+        ) : (
+          popularProfiles?.results.map((profile) => (
+            <Profile key={profile.id} profile={profile} />
+          ))
+        )
       ) : (
         <Asset spinner />
       )}
