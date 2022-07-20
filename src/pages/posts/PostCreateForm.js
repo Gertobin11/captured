@@ -10,15 +10,17 @@ import { Alert } from "react-bootstrap";
 import Upload from "../../assets/upload.png";
 
 import styles from "../../styles/PostCreateEditForm.module.css";
-import appStyles from '../../App.module.css';
+import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 
 import Asset from "../../components/Asset";
 import { Figure, Image } from "react-bootstrap";
 import { useHistory } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
+import { useRedirect } from "../../hooks/useRedirect";
 
 function PostCreateForm() {
+  useRedirect("loggedOut");
   const [errors, setErrors] = useState({});
 
   const [postData, setPostData] = useState({
@@ -29,7 +31,7 @@ function PostCreateForm() {
 
   const { title, content, image } = postData;
 
-  const imageInput = useRef(null)
+  const imageInput = useRef(null);
 
   const history = useHistory();
 
@@ -53,21 +55,20 @@ function PostCreateForm() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append('title', title);
-    formData.append('content', content);
-    formData.append('image', imageInput.current.files[0]);
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("image", imageInput.current.files[0]);
 
     try {
-      const {data} = await axiosReq.post('/posts/', formData)
-      history.push(`/posts/${data.id}`)
-    }
-    catch(err) {
+      const { data } = await axiosReq.post("/posts/", formData);
+      history.push(`/posts/${data.id}`);
+    } catch (err) {
       console.log(err.response?.data);
       if (err.response?.status !== 401) {
-        setErrors(err.response?.data)
+        setErrors(err.response?.data);
       }
     }
-  }
+  };
 
   const textFields = (
     <div className="text-center">
